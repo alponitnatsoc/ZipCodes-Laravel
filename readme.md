@@ -12,7 +12,7 @@ To achieve the main goal of this project, it´s necessary to consider how to obt
 
 First of all, we need a database with the information of longitude and latitude of all postal codes; For this project we will only focus on the postal codes of United States, but works the same for any country. The database used can be found in this [link](http://federalgovermentzipcodes.us), and we use only the longitude and latitud columns of the __"Primary locations only" 4.2MB file__. 
 
-Second we need to calculate the distance between to zip codes, the shortest distance between two points over the surface of the earth is calculated with the __haversine formula__ ([¿what is the haversine formula?](https://en.wikipedia.org/wiki/Haversine_formula)), the math formula is: 
+Second we need to calculate the distance between to zip codes, the shortest distance between two points over the surface of the earth is calculated with the "__*haversine formula*__": 
 
 ![haversine formula](https://wikimedia.org/api/rest_v1/media/math/render/svg/47a496cca1b6d57e0ae7b462c1678660392d1057)
 
@@ -22,5 +22,7 @@ where:
 - __*r*__ is the radius of the sphere,
 - __*φ1, φ2*__: latitude of point 1 and latitude of point 2, in radians
 - __*λ1, λ2*__: longitude of point 1 and longitude of point 2, in radians
+
+for more info about the haversine formula go to this [link](https://en.wikipedia.org/wiki/Haversine_formula)
 
 But theres already a lot of bundles that do this for us, in every units system, so we will be using one of them.
