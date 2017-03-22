@@ -10,7 +10,7 @@ This is a simple web application to match agents with contacts based on zip code
 
 To achieve the main goal of this project, it´s necessary to consider how to obtain the distance between two zip codes, there´s a lot of web services and apps that can make this. The simple way is that having the longitude and latitude of each zip code then the distance between them is easily calculated mathematically
 
-First of all, we need a database with the information of longitude and latitude of all postal codes; For this project we will only focus on the postal codes of United States, but works the same for any country. The database used can be found in this [link](http://federalgovermentzipcodes.us), and we use only the longitude and latitud columns of the __"Primary locations only" 4.2MB file__. 
+First of all, we need a database with the information of longitude and latitude of all postal codes; For this project we will only focus on the postal codes of United States, but works the same for any country. The database used can be found in this [link](http://federalgovernmentzipcodes.us), and we use only the longitude and latitud columns of the __"Primary locations only" 4.2MB file__. 
 
 Second we need to calculate the distance between to zip codes, the shortest distance between two points over the surface of the earth is calculated with the "__*haversine formula*__": 
 
@@ -26,3 +26,6 @@ where:
 for more info about the haversine formula go to this [link](https://en.wikipedia.org/wiki/Haversine_formula)
 
 But theres already a lot of bundles that do this for us, in every units system, so we will be using one of them.
+The package we are using is __*jeroendesloovere/distance*__ you can find more info about it on the official repository link:  [jeroendesloovere/distance](https://github.com/jeroendesloovere/distance).
+
+I decided to use this package because it also includes a function to get the nearest location compared to a list of locations, which is perfect for the main goal of this project.
