@@ -2,34 +2,25 @@
 
 ## <p align="center">Welcome to zipCodes project using laravel</p>
 
-## About Laravel
+## About ZipCodes Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+This is a simple web application to match agents with contacts based on zip codes location, given a list of contacts each one with zip code and the location of each agent, the web app matches the contacts with the nearliest agent.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## About the solution
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+To achieve the main goal of this project, it´s necessary to consider how to obtain the distance between two zip codes, there´s a lot of web services and apps that can make this. The simple way is that having the longitude and latitude of each zip code then the distance between them is easily calculated mathematically
 
-## Learning Laravel
+First of all, we need a database with the information of longitude and latitude of all postal codes; For this project we will only focus on the postal codes of United States, but works the same for any country. The database used can be found in this [link](http://federalgovermentzipcodes.us), and we use only the longitude and latitud columns of the __"Primary locations only" 4.2MB file__. 
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+Second we need to calculate the distance between to zip codes, the shortest distance between two points over the surface of the earth is calculated with the __haversine formula__ ([¿what is the haversine formula?](https://en.wikipedia.org/wiki/Haversine_formula)), the math formula is: 
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+![haversine formula](https://wikimedia.org/api/rest_v1/media/math/render/svg/47a496cca1b6d57e0ae7b462c1678660392d1057)
 
-## Contributing
+where: 
+- __*hav*__ is the haversine function:
+- __*d*__ is the distance between the two points (along a great circle of the sphere),
+- __*r*__ is the radius of the sphere,
+- __*φ1, φ2*__: latitude of point 1 and latitude of point 2, in radians
+- __*λ1, λ2*__: longitude of point 1 and longitude of point 2, in radians
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+But theres already a lot of bundles that do this for us, in every units system, so we will be using one of them.
