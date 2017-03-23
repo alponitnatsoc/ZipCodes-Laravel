@@ -26,6 +26,6 @@ where:
 for more info about the haversine formula go to this [link](https://en.wikipedia.org/wiki/Haversine_formula)
 
 But theres already a lot of bundles that do this for us, in every units system, so we will be using one of them.
-The package we are using is __*jeroendesloovere/distance*__ you can find more info about it on the official repository link:  [jeroendesloovere/distance](https://github.com/jeroendesloovere/distance).
+The package we are using is __*toin0u/geotools-laravel*__ you can find more info about it on the official repository link:  [toin0u/geotools-laravel](https://github.com/toin0u/Geotools-laravel).
 
-I decided to use this package because it also includes a function to get the nearest location compared to a list of locations, which is perfect for the main goal of this project.
+I decided to use this package after compare it with some other packages like the jeroendesloovere/distance and ns/distance-bundle, my test included time and accuracy between the result given by the packages, in miles and Kilometers,compared to the results given by the web apps [melisadata](https://www.melisadata.com/lookups/zipdistance.app),  [freemaptools](https://www.freemaptools.com/distance-between-usa-zip-codes.htm) and [zipcodeapi](https://www.zipcodeapi.com/API#distance). 
