@@ -1,40 +1,31 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
 
-## About Laravel
+## <p align="center">Welcome to zipCodes project using laravel</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## About ZipCodes Project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This is a simple web application to match agents with contacts based on zip codes location, given a list of contacts each one with zip code and the location of each agent, the web app matches the contacts with the nearliest agent.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+## About the solution
 
-## Learning Laravel
+To achieve the main goal of this project, it´s necessary to consider how to obtain the distance between two zip codes, there´s a lot of web services and apps that can make this. The simple way is that having the longitude and latitude of each zip code then the distance between them is easily calculated mathematically
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+First of all, we need a database with the information of longitude and latitude of all postal codes; For this project we will only focus on the postal codes of United States, but works the same for any country. The database used can be found in this [link](http://federalgovernmentzipcodes.us), and we use only the longitude and latitud columns of the __"Primary locations only" 4.2MB file__. 
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+Second we need to calculate the distance between to zip codes, the shortest distance between two points over the surface of the earth is calculated with the "__*haversine formula*__": 
 
-## Contributing
+![haversine formula](https://wikimedia.org/api/rest_v1/media/math/render/svg/47a496cca1b6d57e0ae7b462c1678660392d1057)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+where: 
+- __*hav*__ is the haversine function:
+- __*d*__ is the distance between the two points (along a great circle of the sphere),
+- __*r*__ is the radius of the sphere,
+- __*φ1, φ2*__: latitude of point 1 and latitude of point 2, in radians
+- __*λ1, λ2*__: longitude of point 1 and longitude of point 2, in radians
 
-## Security Vulnerabilities
+for more info about the haversine formula go to this [link](https://en.wikipedia.org/wiki/Haversine_formula)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+But theres already a lot of bundles that do this for us, in every units system, so we will be using one of them.
+The package we are using is __*jeroendesloovere/distance*__ you can find more info about it on the official repository link:  [jeroendesloovere/distance](https://github.com/jeroendesloovere/distance).
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+I decided to use this package because it also includes a function to get the nearest location compared to a list of locations, which is perfect for the main goal of this project.
