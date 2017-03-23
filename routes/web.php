@@ -22,9 +22,12 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::get('person', function () {
-    $person = DB::table('person')->where('name','Andres')->first();
-    echo $person->name;
+
+    $coord1 = Geotools::coordinate([32.29,-110.83]);
+    $coord2 = Geotools::coordinate([33.76,-112.24]);
+    $distance = Geotools::distance()->setFrom($coord1)->setTo($coord2);
+    echo $distance->in('mi')->vincenty();
+
 });
 
-//test
 
