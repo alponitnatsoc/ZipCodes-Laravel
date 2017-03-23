@@ -28,4 +28,8 @@ for more info about the haversine formula go to this [link](https://en.wikipedia
 But theres already a lot of bundles that do this for us, in every units system, so we will be using one of them.
 The package we are using is __*toin0u/geotools-laravel*__ you can find more info about it on the official repository link:  [toin0u/geotools-laravel](https://github.com/toin0u/Geotools-laravel).
 
-I decided to use this package after compare it with some other packages like the jeroendesloovere/distance and ns/distance-bundle, my test included time and accuracy between the result given by the packages, in miles and Kilometers,compared to the results given by the web apps [melisadata](https://www.melisadata.com/lookups/zipdistance.app),  [freemaptools](https://www.freemaptools.com/distance-between-usa-zip-codes.htm) and [zipcodeapi](https://www.zipcodeapi.com/API#distance). 
+I decided to use this package after compare it with some other packages like the [jeroendesloovere/distance](https://github.com/jeroendesloovere/distance) and [ns/distance-bundle](https://github.com/NobletSolutions/DistanceBundle), my test included time and accuracy between the result given by the packages, in miles and Kilometers, compared to the results given by the web apps [melisadata](https://www.melisadata.com/lookups/zipdistance.app),  [freemaptools](https://www.freemaptools.com/distance-between-usa-zip-codes.htm) and [zipcodeapi](https://www.zipcodeapi.com/API#distance). 
+
+## About packages
+
+Since this is a laravel project, I installed barryvdh/laravel-ide-helper in order to make development easier using IDE including all the required packages to make it works, like the doctrine/dbal package, in other hand also the previous mentioned package that gets the distance between two coordinates toin0u/geotools-laravel.
