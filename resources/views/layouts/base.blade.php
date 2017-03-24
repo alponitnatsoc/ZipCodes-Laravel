@@ -48,7 +48,6 @@
     @endcomponent
     <div class="container" style=" margin: 0px 1%; background-color: whitesmoke;">
         @yield('content')
-
     </div>
     @component('layouts.footer')
     @endcomponent
@@ -63,7 +62,7 @@
             loadZipCodes();
         });
         @endif
-        @if( substr_compare(Request::getRequestUri(),'/loading/fail/',1,13) )
+        @if( explode('/',Request::getRequestUri())[0]=='loading' and explode('/',Request::getRequestUri())[1] == 'fail' )
             $.getScript("/js/loading_after_fail.js").done(function () {
             reload();
         });

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('tittle', 'Agents Match')
+@section('tittle', 'agents')
 
 @section('fonts')
     @parent

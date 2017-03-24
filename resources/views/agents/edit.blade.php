@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('tittle', 'agents')
+@section('tittle', 'Edit Agent')
 
 @section('fonts')
     @parent
@@ -13,6 +13,6 @@
 @endsection
 
 @section('content')
-    <h1>Yay</h1>
+    {{ $agent->id }}
+    {{ $agent->agent_code }}
 @endsection
-

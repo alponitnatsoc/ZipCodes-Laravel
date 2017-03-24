@@ -24,6 +24,5 @@
         $(document).ready(function (e) {
             loadZipCodes();
         });
-
     </script>
 @endsection

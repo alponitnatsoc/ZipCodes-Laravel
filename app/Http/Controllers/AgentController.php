@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Agent;
+use DB;
 use Illuminate\Http\Request;
 
 class AgentController extends Controller
 {
     /**
-     * Display a listing of the Agents.
+     * Display a listing of the agents.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+//        $agents = DB::table("agent")->get();
+        $agents = Agent::All();
+        return view('agents.index',compact('agents'));
     }
 
     /**
@@ -46,7 +49,7 @@ class AgentController extends Controller
      */
     public function show(Agent $agent)
     {
-        //
+        return view("agents.show",compact('agent'));
     }
 
     /**
@@ -57,7 +60,7 @@ class AgentController extends Controller
      */
     public function edit(Agent $agent)
     {
-        //
+        return view("agents.edit",compact('agent'));
     }
 
     /**
