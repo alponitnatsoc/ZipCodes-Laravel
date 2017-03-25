@@ -33,3 +33,38 @@ I decided to use this package after compare it with some other packages like the
 ## About packages
 
 Since this is a laravel project, I installed barryvdh/laravel-ide-helper in order to make development easier using IDE including all the required packages to make it works, like the doctrine/dbal package, in other hand also the previous mentioned package that gets the distance between two coordinates toin0u/geotools-laravel.
+
+
+## Installation notes
+
+Before using this repository, be sure to have installed all the laravel 5.4 server requirements.
+- PHP >= 5.6.4
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+
+also I recommend develop in linux or OSX environment.
+For more about the installation proccess of laravel visit the [laravel documentation](https://laravel.com/docs/5.4/installation)
+
+## Set up the database
+
+For the initial configuration call the following commands inside the project directory: 
+
+    composer install 
+    composr update
+    bower install
+    bower update
+    
+__note: you need composer and nodejs to be properly installed and configured to be called globally__
+
+then configure your local *.env* file with the database connections parameters and execute 
+    
+    php artisan serve
+    
+this should initialice the local server, in another command prompt or terminal run:
+
+    php artisan migrate 
+
+this should create the required tables into your database. To load all the zipCodes and contacts info, go to the default route of you server 127.0.0.1:8000;
