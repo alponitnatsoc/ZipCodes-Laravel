@@ -36,12 +36,20 @@ Route::resource('location',"LocationController");
 
 
 Route::group(['prefix'=>'loading'],function (){
-    Route::get('/',function (){
+    Route::get('zipCodes',function (){
         return view('pages.loadingZipCodes');
-    })->name('loading');
+    })->name('loading_zip_codes');
 
-    Route::get('fail/{error}',function ($error){
+    Route::get('contacts',function (){
+        return view('pages.loadingContacts');
+    })->name('loading_contacts');
+
+    Route::get('zipCodes/fail/{error}',function ($error){
         return view('pages.loadingFail',array('error'=>$error));
+    })->name('loading_fail');
+
+    Route::get('contacts/fail/{error}',function ($error){
+        return view('pages.contactsLoadingFail',array('error'=>$error));
     })->name('loading_fail');
 });
 

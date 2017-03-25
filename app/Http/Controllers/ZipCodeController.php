@@ -30,7 +30,7 @@ class ZipCodeController extends Controller
     public function createCoordinate(Requecst $request,$latitude,$longitude){
         $coordinates = Coordinate::where('latitude',$latitude)->where('longitude',$longitude);
         if($coordinates->count()!=0){
-            echo "ya esxite";
+            echo "ya existe";
         }else{
             echo "yay";
         }

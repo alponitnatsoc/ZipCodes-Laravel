@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Agent;
+use App\Location;
 use DB;
 use Illuminate\Http\Request;
 

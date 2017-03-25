@@ -1,21 +1,6 @@
 @extends('layouts.base')
 
-@section('tittle', 'agents')
-
-@section('fonts')
-    @parent
-@endsection
-@section('styles')
-    @parent
-@endsection
-@section('scripts')
-    @parent
-@endsection
-
-@section('content')
-    @extends('layouts.base')
-
-@section('tittle', 'List Agent')
+@section('tittle', 'Match contacts')
 
 @section('fonts')
     @parent
@@ -45,12 +30,12 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" id="inputZipcode1" placeholder="Zip Code Agent 1">
+                                <input type="text" class="form-control" name="zipCode1" id="inputZipcode1" placeholder="Zip Code Agent 1">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" id="inputZipcode2" placeholder="Zip Code Agent 2">
+                                <input type="text" class="form-control" name="zipCode2" id="inputZipcode2" placeholder="Zip Code Agent 2">
                             </div>
                         </div>
                     </div>
@@ -65,6 +50,5 @@
             </div>
         </div>
     </div>
-@endsection
 @endsection
 

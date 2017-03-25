@@ -21,6 +21,8 @@ class CreatePersonTable extends Migration
             $table->string('name')->nullable();
             $table->integer('personable_id')->unsigned()->nullable();
             $table->string('personable_type')->nullable();
+            $table->timestamps();
+
         });
 
         Schema::table('person',function (Blueprint $table){

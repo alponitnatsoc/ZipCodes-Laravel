@@ -18,6 +18,7 @@ class CreateAgentTable extends Migration
             $table->increments('id');
             $table->string('agent_code');
             $table->unique('agent_code');
+            $table->timestamps();
         });
     }
 

@@ -42,7 +42,13 @@
                             <td>{{ $agent->agent_code }}</td>
                             <td>{{ $agent->person->id }}</td>
                             <td>{{ $agent->person->name }}</td>
-                            <td>{{ $agent->person->location->zipcode }}</td>
+                            <td>
+                                @if($agent->person->location == null)
+                                    No location
+                                @else
+                                    {{ $agent->person->location->zipcode }}
+                                @endif
+                            </td>
                             <td>
                                 <a href="/agent/{{ $agent->agent_code }}" class="btn btn-default">Info</a>
                             </td>

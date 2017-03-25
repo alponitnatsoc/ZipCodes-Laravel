@@ -1,5 +1,4 @@
-function loadZipCodes(){
-
+function  loadContacts(){
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     var headerHeight = $("div.header").css('height');
@@ -35,21 +34,18 @@ function loadZipCodes(){
 
     function loading(){
         $.ajax({
-            url: '/file/load/zipcodes',
+            url: '/file/load/contacts',
             type: "POST",
             data: { _token:CSRF_TOKEN },
             dataType: 'JSON',
             success: function(data){
-                alert("entro");
                 window.location = "/match";
             },
             error: function(data, textStatus, errorThrown) { // What to do if we fail
                 var error = JSON.stringify(data).split('{"')[1].split(',"')[1].split('"')[2];
-                console.error('/file/load/zipcodes', textStatus, errorThrown.toString());
-                window.location = "/loading/zipCodes/fail/"+error;
+                console.error('/file/load/contacts', textStatus, errorThrown.toString());
+                window.location = "/loading/contacts/fail/"+error;
             }.bind(this)
         });
     }
-
 }
-

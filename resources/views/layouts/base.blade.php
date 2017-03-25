@@ -43,7 +43,7 @@
     @endsection
 
 </head>
-<body style="background-color: dimgray; max-height: 700px; overflow-y: hidden">
+<body style="background-color: dimgray; max-height: 700px; overflow-y: auto">
     @component('layouts.header')
     @endcomponent
     <div class="container" style=" margin: 0px 1%; background-color: whitesmoke;">
@@ -54,12 +54,21 @@
 </body>
 <script>
     $(document).ready(function () {
-        $("body").css({height: innerHeight,width: innerWidth});
-        $("div.container").css({height: innerHeight-innerHeight*.09,width: innerWidth - innerWidth*0.02 });
+        var $height = $(".container").height();
+        alert($height+' '+innerHeight*0.9);
 
-        @if( Request::getRequestUri() ==='/loading')
+        if(innerHeight*0.9>$height){
+            $("body").css({height: innerHeight,width: innerWidth});
+            $("div.container").css({height: innerHeight-innerHeight*.09,width: innerWidth - innerWidth*0.02 });
+        }
+        @if( Request::getRequestUri() ==='/loading/zipCodes')
             $.getScript("/js/loading_zip_codes.js").done(function () {
             loadZipCodes();
+        });
+        @endif
+        @if( Request::getRequestUri() ==='/loading/contacts')
+            $.getScript("/js/loading_contacts.js").done(function () {
+            loadContacts();
         });
         @endif
         @if( explode('/',Request::getRequestUri())[0]=='loading' and explode('/',Request::getRequestUri())[1] == 'fail' )

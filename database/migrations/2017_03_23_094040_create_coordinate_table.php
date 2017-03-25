@@ -18,6 +18,7 @@ class CreateCoordinateTable extends Migration
             $table->float('latitude');
             $table->float('longitude');
             $table->unique(['id','longitude','latitude'],'unique_coordinate_long_lat');
+            $table->timestamps();
         });
     }
 

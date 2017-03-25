@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+
+
 /**
  * App\Location
  *
@@ -12,12 +15,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $zipcode
  * @property string $city
  * @property string $state
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @property-read \App\Coordinate $coordinate
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Person[] $persons
  * @method static \Illuminate\Database\Query\Builder|\App\Location whereCity($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Location whereCoordinateId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Location whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Location whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Location whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Location whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Location whereZipcode($value)
  * @mixin \Eloquent
  */

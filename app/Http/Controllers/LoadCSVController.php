@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Agent;
 use App\Coordinate;
 use App\Location;
+use App\Person;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -50,9 +52,8 @@ class LoadCSVController extends Controller
                     }
                 }
                 $response = $this->createsCoordinatesAndLocations($data);
-
                 if($request->isMethod("GET")){
-                    return view('pages.test');
+                    return redirect()->route('match_agents');
                 }else{
                     return json_encode(array('success'=>true));
                 }
@@ -67,12 +68,21 @@ class LoadCSVController extends Controller
                     $data = array();
                     $data = $this->loadContactsCSV($filename,$path,$delimiter);
                 }catch (\Exception $e){
-                    $request->session()->flash('exception',$e->getMessage());
-                    echo $e->getMessage();
+                    if($request->isMethod("GET")){
+                        return view('pages.contactsLoadingFail',array('error'=>$e->getMessage()));
+                    }else{
+                        return response($e->getMessage(),409);
+                    }
+                }
+                $response = $this->createContacts($data);
+                if($request->isMethod("GET")){
+                    return redirect()->route('match_agents');
+                }else{
+                    return json_encode(array('success'=>true));
                 }
                 break;
             default:
-                return view('pages.matchAgents');
+                return redirect()->route('match_agents');
         }
 
     }
@@ -103,7 +113,7 @@ class LoadCSVController extends Controller
                     foreach ($row as $item)
                         $header[]=strtoupper(preg_replace('/[^A-Za-z0-9\-]/', '', $item));
                     if (count($header)<2 or !in_array('NAME',$header) or !in_array('ZIPCODE',$header))
-                        throw new \Exception($filename." file doesn't match the required headers, mandatory columns are<br>| NAME | ZIPCODE |");
+                        throw new \Exception($filename." file doesn't match the required headers, mandatory columns are | NAME | ZIPCODE |");
                 } else {
                     $tempArrayData=array();
                     foreach ($row as $key=>$item) {
@@ -143,7 +153,7 @@ class LoadCSVController extends Controller
                     foreach ($row as $item)
                         $header[]=strtoupper(preg_replace('/[^A-Za-z0-9\-]/', '', $item));
                     if (!in_array('ZIPCODE',$header) or !in_array('CITY',$header) or !in_array('STATE',$header) or !in_array('LAT',$header) or !in_array('LONG',$header))
-                        throw new \Exception($filename." file doesn't match the required headers, mandatory columns are<br>| ZIPCODE | CITY | STATE | LAT | LONG |");
+                        throw new \Exception($filename." file doesn't match the required headers, mandatory columns are | ZIPCODE | CITY | STATE | LAT | LONG |");
                 } else {
                     $tempArrayData=array();
                     foreach ($row as $key=>$item) {
@@ -160,10 +170,13 @@ class LoadCSVController extends Controller
 
 
     /**
+     * this function creates the coordinates and locations in the database
+     *
      * @param array $data with all the locations and coordinates info from the csv file
-     * @return bool
+     * @return array
      */
     private function createsCoordinatesAndLocations($data){
+        $errors= '';
         foreach ($data as $item) {
             $state = $item['STATE'];
             $city = $item['CITY'];
@@ -172,11 +185,75 @@ class LoadCSVController extends Controller
             $longitude = $item['LONG'];
             $location = (Location::where('zipcode',$zipCode)->first()!=null)?Location::where('zipcode',$zipCode)->first():null;
             $coordinate = (Coordinate::where('latitude',$latitude)->where('longitude',$longitude)->first()!=null)?Coordinate::where('latitude',$latitude)->where('longitude',$longitude)->first():null;
-//            if(!$coordinate){
-//                dump("se crea");
-//            }
-        }
+            try{
+                if(!$coordinate and !$location){
+                    if(!($latitude!='' and $longitude!='' and $zipCode!= '' and $city!= '' and $state!= ''))continue;
+                    /** @var Coordinate $coordinate */
+                    $coordinate = new Coordinate();
+                    $coordinate->latitude = $latitude;
+                    $coordinate->longitude = $longitude;
+                    $coordinate->save();
+                    /** @var Location $location */
+                    $location = new Location();
+                    $location->state = $state;
+                    $location->city = $city;
+                    $location->zipcode = $zipCode;
+                    $coordinate->location()->save($location);
+                    $location->save();
+                }else{
+                    continue;
+                }
+            }catch(\Exception $e){
+                $errors .= ' '.$e->getMessage();
+                continue;
+            }
 
-        return array('data'=>"yay");
+        }
+        return array('done'=>true,'errors'=>$errors);
+    }
+
+    /**
+     * this function creates the contacts in the database
+     *
+     * @param array $data with all the contacts info from the csv file
+     * @return array
+     */
+    private function createContacts($data){
+        $person1 = new Person();
+        $person1->name = 'Agent1';
+        $agent = new Agent();
+        $agent->agent_code = 'Agent1';
+        $agent->person()->save($person1);
+        $person2 = new Person();
+        $person2->name = 'Agent2';
+        $agent = new Agent();
+        $agent->agent_code = 'Agent2';
+        $agent->person()->save($person2);
+        $agent = Agent::find(1);
+        $person1->personable_id=$agent->id;
+        $person1->save();
+        $agent = Agent::find(2);
+        $person2->personable_id=$agent->id;
+        $person2->save();
+        $errors='';
+        foreach ($data as $item) {
+            try{
+                $person = new Person();
+                $person->name = $item['NAME'];
+                $person->save();
+                $location = Location::whereZipcode($item['ZIPCODE'])->get()->first();
+                if($location==null){
+                    $errors.=' '.$item['NAME'].' zipcode not found';
+                    continue;
+                }else{
+                    $location->persons()->save($person);
+                }
+            }catch(\Exception $e){
+                $errors .= ' '.$e->getMessage();
+                continue;
+            }
+
+        }
+        return array('done'=>true,'errors'=>$errors);
     }
 }
