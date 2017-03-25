@@ -1,8 +1,10 @@
 
 
-## Welcome to zipCodes project using laravel
+Welcome to zipCodes project using laravel
+==============
 
-## About ZipCodes Project
+About ZipCodes Project
+==============
 
 This is a simple web application to match agents with contacts based on zip codes location, given a list of contacts each one with zip code and the location of each agent, the web app matches the contacts with the nearliest agent.
 
@@ -35,7 +37,8 @@ I decided to use this package after compare it with some other packages like the
 Since this is a laravel project, I installed barryvdh/laravel-ide-helper in order to make development easier using IDE including all the required packages to make it works, like the doctrine/dbal package, in other hand also the previous mentioned package that gets the distance between two coordinates toin0u/geotools-laravel.
 
 
-## Installation notes
+Installation notes
+==============
 
 Before using this repository, be sure to have installed all the laravel 5.4 server requirements.
 - PHP >= 5.6.4
@@ -75,3 +78,14 @@ this should create the required tables into your database. To load all the zipCo
 you should see something like this:
 
 ![loading](http://i.imgur.com/xNuzXAy.png)
+
+Thats all your database its ready.
+
+__Optional method__
+
+You can import the .sql script directly to your mysql database with all the agents and zip codes.
+
+The file is in the [/Resources/BDBackUps/](https://github.com/alponitnatsoc/ZipCodes-Laravel/tree/master/resources/bdbackups) folder of this repository.
+
+
+
