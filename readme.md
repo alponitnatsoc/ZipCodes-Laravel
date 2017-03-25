@@ -1,6 +1,6 @@
 
 
-## <p align="center">Welcome to zipCodes project using laravel</p>
+## Welcome to zipCodes project using laravel
 
 ## About ZipCodes Project
 
