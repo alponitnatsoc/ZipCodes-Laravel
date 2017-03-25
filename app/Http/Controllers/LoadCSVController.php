@@ -72,7 +72,7 @@ class LoadCSVController extends Controller
                 }
                 break;
             default:
-                return view('matchAgents');
+                return view('pages.matchAgents');
         }
 
     }

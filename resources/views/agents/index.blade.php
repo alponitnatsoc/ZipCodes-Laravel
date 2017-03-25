@@ -44,16 +44,12 @@
                             <td>{{ $agent->person->name }}</td>
                             <td>{{ $agent->person->location->zipcode }}</td>
                             <td>
-                                <a href="/agent/{{ $agent->id }}/edit" class="btn btn-default">Edit</a>
-                                <a href="/agent/{{ $agent->id }}" class="btn btn-default">Info</a>
+                                <a href="/agent/{{ $agent->agent_code }}" class="btn btn-default">Info</a>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="panel-body center-block">
-                <a href="/agent/create" class="btn btn-info">Create Agent</a>
             </div>
         </div>
     @endif

@@ -27,7 +27,7 @@ class AgentController extends Controller
      */
     public function create()
     {
-        //
+        //todo create Agent
     }
 
     /**
@@ -38,7 +38,7 @@ class AgentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //todo store Agent
     }
 
     /**
@@ -60,7 +60,7 @@ class AgentController extends Controller
      */
     public function edit(Agent $agent)
     {
-        return view("agents.edit",compact('agent'));
+        //todo edit Agent
     }
 
     /**
@@ -72,7 +72,7 @@ class AgentController extends Controller
      */
     public function update(Request $request, Agent $agent)
     {
-        //
+        //todo update Agent
     }
 
     /**
@@ -83,6 +83,6 @@ class AgentController extends Controller
      */
     public function destroy(Agent $agent)
     {
-        //
+        //todo destroy Agent
     }
 }

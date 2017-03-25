@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Agent;
 use App\Person;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        //
+        //todo show all persons
     }
 
     /**
@@ -24,7 +25,7 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        //todo create person
     }
 
     /**
@@ -35,7 +36,7 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //todo store person
     }
 
     /**
@@ -46,7 +47,7 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-        //
+        //todo show person
     }
 
     /**
@@ -57,7 +58,7 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        //
+        //todo edit person
     }
 
     /**
@@ -69,7 +70,7 @@ class PersonController extends Controller
      */
     public function update(Request $request, Person $person)
     {
-        //
+        //todo update person
     }
 
     /**
@@ -80,6 +81,19 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
-        //
+        //todo destroy person
+    }
+
+    /**
+     * Display all contacts if no agent or all agent contacts if agent.
+     * @param Agent |null $agent
+     * @return \Illuminate\Http\Response
+     */
+    public function showContacts(Agent $agent = null)
+    {
+        if($agent->contacts()->count()!=0)
+            return view('contacts.showContacts',array('contacts'=>$agent->contacts));
+        $persons = Person::wherePersonableId(null)->get();
+        return view('contacts.showContacts',array('contacts'=>$persons));
     }
 }

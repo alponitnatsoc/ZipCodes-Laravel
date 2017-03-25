@@ -11,8 +11,19 @@
 |
 */
 
-/** Resourceful routes  */
+/** index page */
+Route::get('/', 'MainController@showIndex')->name('home');
 
+/** match page */
+Route::get('match','MainController@match')->name('match_agents');
+
+/** match page */
+Route::post('match','MainController@matchProcess')->name('match_process');
+
+/** contacts pages */
+Route::get('contacts/{agent?}','PersonController@showContacts')->name('show_contacts');
+
+/** Resourceful routes  */
 //Agent
 Route::resource('agent',"AgentController");
 
@@ -22,9 +33,6 @@ Route::resource('person',"PersonController");
 //Location
 Route::resource('location',"LocationController");
 
-
-
-Route::get('/', 'MainController@showIndex')->name('home');
 
 
 Route::group(['prefix'=>'loading'],function (){
@@ -49,27 +57,5 @@ Route::group(['prefix'=>'create'],function (){
     Route::post('location/{zipcode}/{state}/{city}/{coordId}','ZipCodeController@createLocation')->name('create_location');
 });
 
-
-
-
-
-Route::get('agents','AgentController@index')->name('');
-
-Route::get('person', function () {
-
-    echo getcwd();
-//    $person = App\Person::first();
-//    echo $person->personable->agent_code.'<br>';
-//
-//    $person2 = App\Person::find(2);
-//    echo $person2->agent->person->name;
-
-
-    die;
-    $coord1 = Geotools::coordinate([32.29,-110.83]);
-    $coord2 = Geotools::coordinate([33.76,-112.24]);
-    $distance = Geotools::distance()->setFrom($coord1)->setTo($coord2);
-    echo $distance->in('Km')->haversine();
-});
 
 
