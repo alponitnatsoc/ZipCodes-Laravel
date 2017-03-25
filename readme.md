@@ -85,7 +85,7 @@ __Optional method__
 
 You can import the .sql script directly to your mysql database with all the agents and zip codes.
 
-The file is in the [/Resources/BDBackUps/](https://github.com/alponitnatsoc/ZipCodes-Laravel/tree/master/resources/bdbackups) folder of this repository.
+The file is in the [/Resources/BDBackUps/](https://github.com/alponitnatsoc/ZipCodes-Laravel/tree/master/resources/BDBackUps) folder of this repository.
 
 
 
