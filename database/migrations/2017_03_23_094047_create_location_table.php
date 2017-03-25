@@ -25,7 +25,6 @@ class CreateLocationTable extends Migration
 
         Schema::table('location',function (Blueprint $table){
             $table->foreign('coordinate_id')->references('id')->on('coordinate')->onDelete('cascade');
-            $table->unique('coordinate_id','unique_coordinate');
         });
     }
 

@@ -40,7 +40,6 @@ function loadZipCodes(){
             data: { _token:CSRF_TOKEN },
             dataType: 'JSON',
             success: function(data){
-                alert("entro");
                 window.location = "/match";
             },
             error: function(data, textStatus, errorThrown) { // What to do if we fail

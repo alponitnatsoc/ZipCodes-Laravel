@@ -54,8 +54,11 @@ For the initial configuration call the following commands inside the project dir
 
     composer install 
     composr update
-    bower install
-    bower update
+    npm install 
+    npm update
+    npm install -dev
+    npm update -dev
+    npm run dev
     
 __note: you need composer and nodejs to be properly installed and configured to be called globally__
 
@@ -63,8 +66,12 @@ then configure your local *.env* file with the database connections parameters a
     
     php artisan serve
     
-this should initialice the local server, in another command prompt or terminal run:
+this should initialize the local server, in another command prompt or terminal run:
 
     php artisan migrate 
 
-this should create the required tables into your database. To load all the zipCodes and contacts info, go to the default route of you server 127.0.0.1:8000;
+this should create the required tables into your database. To load all the zipCodes and contacts info, go to the default route of you server [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+you should see something like this:
+
+![loading](http://i.imgur.com/xNuzXAy.png)

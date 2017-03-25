@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $longitude
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \App\Location $location
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Location[] $location
  * @method static \Illuminate\Database\Query\Builder|\App\Coordinate whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Coordinate whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Coordinate whereLatitude($value)
@@ -29,7 +29,7 @@ class Coordinate extends Model
     protected $fillable = ['latitude','longitude'];
 
     public function location(){
-        return $this->hasOne('App\Location');
+        return $this->hasMany('App\Location');
     }
 
 

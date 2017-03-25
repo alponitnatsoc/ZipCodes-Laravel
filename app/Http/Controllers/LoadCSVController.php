@@ -6,9 +6,11 @@ use App\Agent;
 use App\Coordinate;
 use App\Location;
 use App\Person;
+use DoctrineTest\InstantiatorTestAsset\ArrayObjectAsset;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use SebastianBergmann\CodeCoverage\Node\Iterator;
 
 class LoadCSVController extends Controller
 {
@@ -34,7 +36,6 @@ class LoadCSVController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View | JsonResponse
      */
     public function load(Request $request, $type, $filename = '', $path = '', $delimiter = ''){
-
         switch ($type){
             case 'zipcodes':
                 //setting the default filename and path for the zipcodes file.
@@ -44,14 +45,19 @@ class LoadCSVController extends Controller
                 try{
                     $data = array();
                     $data = $this->loadZipCodesCSV($filename,$path,$delimiter);
+                    $done = false;
+                    for($i = 6;$done!=true;$i++){
+                        $response = $response = $this->createsCoordinatesAndLocations($data,$i);
+                        $done = $response['done'];
+                    }
                 }catch (\Exception $e){
+                    echo 'error';die;
                     if($request->isMethod("GET")){
                         return view('pages.loadingFail',array('error'=>$e->getMessage()));
                     }else{
                         return response($e->getMessage(),409);
                     }
                 }
-                $response = $this->createsCoordinatesAndLocations($data);
                 if($request->isMethod("GET")){
                     return redirect()->route('match_agents');
                 }else{
@@ -137,7 +143,6 @@ class LoadCSVController extends Controller
      * @return array
      */
     private function loadZipCodesCSV($filename, $path, $delimiter = ','){
-
         $fullPath=$path.'/'.$filename;
         if(!is_dir($path)){
             throw new \Exception("Dir ". $path ." not found or doesn't exist.".PHP_EOL);
@@ -173,41 +178,57 @@ class LoadCSVController extends Controller
      * this function creates the coordinates and locations in the database
      *
      * @param array $data with all the locations and coordinates info from the csv file
+     * @param integer $i iteration number
      * @return array
      */
-    private function createsCoordinatesAndLocations($data){
+    private function createsCoordinatesAndLocations($data,$i){
         $errors= '';
-        foreach ($data as $item) {
-            $state = $item['STATE'];
-            $city = $item['CITY'];
-            $zipCode = $item['ZIPCODE'];
-            $latitude = $item['LAT'];
-            $longitude = $item['LONG'];
-            $location = (Location::where('zipcode',$zipCode)->first()!=null)?Location::where('zipcode',$zipCode)->first():null;
-            $coordinate = (Coordinate::where('latitude',$latitude)->where('longitude',$longitude)->first()!=null)?Coordinate::where('latitude',$latitude)->where('longitude',$longitude)->first():null;
-            try{
-                if(!$coordinate and !$location){
+        $count = 0;
+        $lower = $i*5000;
+        $upper = ($i+1)*5000;
+        foreach ($data as $key=>$item) {
+            if($count < $lower){
+                $count++;
+                continue;
+            }elseif($count >=$lower and $count<$upper){
+                $state = $item['STATE'];
+                $city = $item['CITY'];
+                $zipCode = $item['ZIPCODE'];
+                $latitude = $item['LAT'];
+                $longitude = $item['LONG'];
+                $location = (Location::where('zipcode',$zipCode)->first()!=null)?Location::where('zipcode',$zipCode)->first():null;
+                $coordinate = (Coordinate::where('latitude',$latitude)->where('longitude',$longitude)->first()!=null)?Coordinate::where('latitude',$latitude)->where('longitude',$longitude)->first():null;
+                try{
                     if(!($latitude!='' and $longitude!='' and $zipCode!= '' and $city!= '' and $state!= ''))continue;
-                    /** @var Coordinate $coordinate */
-                    $coordinate = new Coordinate();
-                    $coordinate->latitude = $latitude;
-                    $coordinate->longitude = $longitude;
-                    $coordinate->save();
-                    /** @var Location $location */
-                    $location = new Location();
-                    $location->state = $state;
-                    $location->city = $city;
-                    $location->zipcode = $zipCode;
-                    $coordinate->location()->save($location);
-                    $location->save();
-                }else{
+                    if($location!=null and $coordinate!= null){
+                        $count++;
+                        continue;
+                    }
+                    if(!$coordinate) {
+                        /** @var Coordinate $coordinate */
+                        $coordinate = new Coordinate();
+                        $coordinate->latitude = $latitude;
+                        $coordinate->longitude = $longitude;
+                        $coordinate->save();
+                    }
+                    if(!$location){
+                        /** @var Location $location */
+                        $location = new Location();
+                        $location->state = $state;
+                        $location->city = $city;
+                        $location->zipcode = $zipCode;
+                        $coordinate->location()->save($location);
+                        $location->save();
+                    }
+
+                }catch(\Exception $e){
+                    $errors .= ' '.$e->getMessage();
                     continue;
                 }
-            }catch(\Exception $e){
-                $errors .= ' '.$e->getMessage();
-                continue;
+            }elseif($count>=$upper){
+                return array('done'=>false,'errors'=>$errors);
             }
-
+            $count++;
         }
         return array('done'=>true,'errors'=>$errors);
     }
@@ -219,16 +240,18 @@ class LoadCSVController extends Controller
      * @return array
      */
     private function createContacts($data){
+        $agent1 = new Agent();
+        $agent1->agent_code = 'Agent1';
+        $agent1->save();
+        $agent2 = new Agent();
+        $agent2->agent_code = 'Agent2';
+        $agent2->save();
         $person1 = new Person();
         $person1->name = 'Agent1';
-        $agent = new Agent();
-        $agent->agent_code = 'Agent1';
-        $agent->person()->save($person1);
+        $agent1->person()->save($person1);
         $person2 = new Person();
         $person2->name = 'Agent2';
-        $agent = new Agent();
-        $agent->agent_code = 'Agent2';
-        $agent->person()->save($person2);
+        $agent2->person()->save($person2);
         $agent = Agent::find(1);
         $person1->personable_id=$agent->id;
         $person1->save();
