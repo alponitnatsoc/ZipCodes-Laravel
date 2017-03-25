@@ -55,7 +55,6 @@
 <script>
     $(document).ready(function () {
         var $height = $(".container").height();
-        alert($height+' '+innerHeight*0.9);
 
         if(innerHeight*0.9>$height){
             $("body").css({height: innerHeight,width: innerWidth});
